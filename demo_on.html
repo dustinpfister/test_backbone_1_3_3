@@ -1,0 +1,40 @@
+ <!doctype html>
+ <html>
+ <head>
+ <title> mf_rwcore </title>
+ </head>
+ <body>
+
+  <script src="underscore.js"></script>
+  <script src="backbone.js"></script>
+  
+  <script>
+  
+  var obj = {
+  
+    x : 0,
+    y : 0,
+    dx: 1,
+    dy: 5
+  
+  };
+  
+  _.extend(obj, Backbone.Events);
+  
+  obj.on('move', function(){
+  
+    this.x += this.dx;
+    this.y += this.dy;
+  
+  });
+  
+  obj.trigger('move');
+  
+  console.log(obj);
+  
+  
+  </script>
+  
+
+ </body>
+</html>
