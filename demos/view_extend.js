@@ -3,6 +3,8 @@ var View = Backbone.View.extend({
 
         el : $('#container'),
 
+        template : _.template('<p>Clicks: <%- clicks %></p>'),
+
         initialize : function () {
 
             this.render();
@@ -11,7 +13,7 @@ var View = Backbone.View.extend({
 
         render : function () {
 
-            this.$el.html('hello world');
+            this.$el.html(this.template({clicks: 0}));
 
         }
 

@@ -1,8 +1,20 @@
 var Model = Backbone.Model.extend({
 
+        clicks : 0,
+
         set : function (one, two) {
 
-            console.log('hello backbone!');
+            console.log('setting up model:');
+
+            this.clicks = 0;
+
+        },
+
+        user_action : function () {
+
+            console.log('model user action:');
+
+            this.clicks += 1;
 
         }
 
@@ -12,9 +24,24 @@ var View = Backbone.View.extend({
 
         el : $('#container'),
 
-        template : _.template('<b><%- data %></b>'),
+        model : new Model(),
+
+        template : _.template('<p>Clicks: <%- clicks %></p>'),
+
+        events : {
+
+            //'click #user_click' : 'user_click'
+            "click #user_click" : "user_click"
+
+        },
 
         initialize : function () {
+
+            console.log('view started:');
+
+            //this.input = this.$("#user_click");
+
+            //this.listenTo(this.model, 'add', this.userAction);
 
             this.render();
 
@@ -22,11 +49,16 @@ var View = Backbone.View.extend({
 
         render : function () {
 
-            console.log('render');
+            this.$el.find('#disp').html(this.template(this.model));
 
-            this.$el.html('hello world');
+        },
 
-            console.log(this);
+        user_click : function () {
+
+            console.log('user action:');
+
+            this.model.user_action();
+			this.render();
 
         }
 
