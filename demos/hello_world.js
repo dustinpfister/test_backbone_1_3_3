@@ -116,14 +116,22 @@ console.log(m.i + ' : ' + m.mess); // 1 : ello Model! H
 
 var View = Backbone.View.extend({
 
+        // so my container element is still the container
         el : $('#container'),
 
+        // I am now using the Model I made in this view
         model : new Model(),
 
+        // same old template
         template : _.template('<p>message: <%- mess %></p>'),
 
+        // So Now I am adding an event
         events : {
 
+            // it is a click event, for the element
+            // with an id of action, and I am calling
+            // the onAction method of this view when
+            // it happens.
             'click #action' : 'onAction'
 
         },
@@ -136,16 +144,21 @@ var View = Backbone.View.extend({
 
         render : function () {
 
+            // now I am finding the display element in the container
+            // and I am updating the template with the instance of my Model
             this.$el.find('#disp').html(this.template(this.model));
 
         },
 
+        // the onAction method
         onAction : function () {
 
             console.log('action!');
 
+            // call the action method of the model
             this.model.action();
 
+            // render again.
             this.render();
 
         }
