@@ -1,22 +1,35 @@
 
 // The Model
-var Model = Backbone.Model.extend({
-
-        clicks : 0,
-
-        set : function (one, two) {
-
-            this.clicks = 0;
-
+var Idel = Backbone.Model.extend(
+ 
+    {
+ 
+        beens : 0,
+ 
+        initilize : function (one, two) {
+ 
+            this.beens = 0;
+ 
         },
-
-        user_action : function () {
-
-            this.clicks += 1;
-
+ 
+        // what to do if some kind of user action happens
+        manualGather : function () {
+ 
+            this.beens += 1;
+ 
         }
+ 
+    }
+ 
+);
 
-    });
+var game = new Idel();
+
+console.log('beens: ' + game.beens);
+
+game.manualGather();
+
+console.log('beens: ' + game.beens);
 
 // The View
 var View = Backbone.View.extend({
@@ -25,10 +38,10 @@ var View = Backbone.View.extend({
         el : $('#container'),
 
         // the model will be the Model given above
-        model : new Model(),
+        model : new Idel(),
 
         // use a template
-        template : _.template('<p>Clicks: <%- clicks %></p>'),
+        template : _.template('<p>Beens: <%- beens %></p>'),
 
         // setup the event attachment
         events : {
@@ -56,7 +69,7 @@ var View = Backbone.View.extend({
         // what to do when the
         user_click : function () {
 
-            this.model.user_action();
+            this.model.manualGather();
             this.render();
 
         }

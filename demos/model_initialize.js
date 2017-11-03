@@ -1,36 +1,48 @@
 
-var Item = Backbone.Model.extend(
-
-    {
+var Angle = Backbone.Model.extend({
 
         // some defaults set with a function
         defaults : {
 
-            foo : 'notbar',
-            anwser : 10
+            mode : 'deg',
+            angle : 46
+
+        },
+
+        normalize : function () {
+
+            // if degrees
+            if (this.get('mode') === 'deg') {
+
+                this.set('angle', this.get('angle') % 360);
+
+            } else {
+
+                // else radians
+
+                this.set('angle', this.get('angle') % (Math.PI * 2));
+
+            }
+
+        },
+
+        initialize : function () {
+
+            // what is written here is called once
+            // each time a new instnace of the
+            // model is made
+
+            // normalize the angle given.
+            this.normalize();
 
         }
 
     });
 
-// making a new instance of the Model
-var i = new Item();
+var a = new Angle({angle : 810});
 
-// you can not get a state attribute this way
-console.log(i.foo); // undefined
+console.log(a.get('angle')); // 90
 
-// it's in the attributes object, so you can get
-// it this way.
-console.log(i.attributes.foo); // 'notbar'
+var r = new Angle({mode:'rad', angle: Math.PI * 2.5});
 
-// or user get
-console.log(i.get('foo')); // 'notbar'
-
-// To set a state value do not just
-// set the value via the attributes array
-// use set
-i.set('foo','bar');
-i.set('anwser',42);
-
-console.log(i.get('foo')); // 'bar'
-console.log(i.get('anwser')); // 42
+console.log(r.get('angle')); // 1.57...
