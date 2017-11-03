@@ -8,9 +8,9 @@ var View = Backbone.View.extend({
         model : new Idle(),
 
         // use a template
-        dispTemplate : _.template('<p>Beens: <%- beens %><\/p><p>Unlocked: <%- upgrades_unlocked %><\/p>'),
+        dispTemplate : _.template('<p>Beens: <%- beens %> (+<%- manRate %>)<\/p><p>Unlocked: <%- upgrades_unlocked %><\/p>'),
 
-        upgradeTemplate : _.template('<li><%- desc %>; cost : <%- cost %> <input id=\"upgrade_<%- id %>\" type=\"button\" value=\"upgrade\"><\/li>'),
+        upgradeTemplate : _.template('<li><%- desc %>; cost : <%- cost %>; count : <%- count %>; <input id=\"upgrade_<%- id %>\" type=\"button\" value=\"upgrade\"><\/li>'),
 
         // setup the event attachment
         events : {
@@ -54,6 +54,7 @@ var View = Backbone.View.extend({
                     console.log('user upgrade for: ' + upData.id);
 
                     view.model.user_upgrade(upData.id);
+                    view.render();
 
                 });
 
