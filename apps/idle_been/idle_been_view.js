@@ -37,8 +37,43 @@ var View = Backbone.View.extend({
 
             var html = '';
 
+            this.model.get('upgrades_unlocked').forEach(function (uLockId) {
+
+                var data = view.model.getUpgradeData(uLockId);
+
+                console.log(uLockId);
+                console.log(data);
+
+                html += view.upgradeTemplate(data);
+
+            });
+
+            this.$el.find('#upgrades_list').html(html);
+
+            this.model.get('upgrades_unlocked').forEach(function (uLockId) {
+
+                (function (data) {
+
+                    $('#upgrade_' + data.id).get(0).addEventListener('click', function () {
+
+                        console.log('user upgrade for: ' + data.id);
+
+                        view.model.user_upgrade(data.id);
+                        view.render();
+
+                    });
+
+                }
+                    (view.model.getUpgradeData(uLockId)))
+
+            });
+
+            /*
             var i = 0,
-            upData;
+            upData,
+            len = this.model.get('upgrades_data').length;
+
+            while(i < len){
 
             upData = this.model.get('upgrades_data')[i];
             html += this.upgradeTemplate(upData);
@@ -49,19 +84,25 @@ var View = Backbone.View.extend({
 
             (function () {
 
-                $('#upgrade_' + upData.id).get(0).addEventListener('click', function () {
+            $('#upgrade_' + upData.id).get(0).addEventListener('click', function () {
 
-                    console.log('user upgrade for: ' + upData.id);
+            console.log('user upgrade for: ' + upData.id);
 
-                    view.model.user_upgrade(upData.id);
-                    view.render();
+            view.model.user_upgrade(upData.id);
+            view.render();
 
-                });
+            });
 
             }
-                (upData))
+            (upData))
 
             console.log($('#upgrade_' + upData.id).get(0))
+
+            i += 1;
+
+            }
+
+             */
 
         },
 
