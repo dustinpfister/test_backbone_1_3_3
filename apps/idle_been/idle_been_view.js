@@ -8,7 +8,7 @@ var View = Backbone.View.extend({
         model : new Idle(),
 
         // use a template
-        template : _.template('<p>Beens: <%- beens %><\/p><p>Unlocked: <%- upgrades_unlocked %><\/p>'),
+        dispTemplate : _.template('<p>Beens: <%- beens %><\/p><p>Unlocked: <%- upgrades_unlocked %><\/p>'),
 
         // setup the event attachment
         events : {
@@ -29,7 +29,7 @@ var View = Backbone.View.extend({
         render : function () {
 
             // update the display
-            this.$el.find('#disp').html(this.template(this.model.attributes));
+            this.$el.find('#disp').html(this.dispTemplate(this.model.attributes));
 
         },
 
