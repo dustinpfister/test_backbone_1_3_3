@@ -1,35 +1,41 @@
 
 // The Model
-var Idel = Backbone.Model.extend(
- 
+var Idle = Backbone.Model.extend(
+
+        // you want to give Model.extend an object
+        // that will contain all of the methods,
+        // and attributes that compose your Model
     {
- 
-        beens : 0,
- 
-        initilize : function (one, two) {
- 
-            this.beens = 0;
- 
+
+        // set some defaults
+        defaults : {
+
+            beens : 0
+
         },
- 
+
         // what to do if some kind of user action happens
         manualGather : function () {
- 
-            this.beens += 1;
- 
+
+            var beens = this.get('beens');
+
+            beens += 1;
+
+            this.set('beens', beens);
+
         }
- 
-    }
- 
-);
 
-var game = new Idel();
+    });
 
-console.log('beens: ' + game.beens);
+// create an instance of the Model
+var game = new Idle();
 
+console.log('beens: ' + game.get('beens')); // 0
+
+// use a method
 game.manualGather();
 
-console.log('beens: ' + game.beens);
+console.log('beens: ' + game.get('beens')); // 1
 
 // The View
 var View = Backbone.View.extend({
@@ -38,7 +44,7 @@ var View = Backbone.View.extend({
         el : $('#container'),
 
         // the model will be the Model given above
-        model : new Idel(),
+        model : new Idle(),
 
         // use a template
         template : _.template('<p>Beens: <%- beens %></p>'),
@@ -62,7 +68,7 @@ var View = Backbone.View.extend({
         render : function () {
 
             // update the display
-            this.$el.find('#disp').html(this.template(this.model));
+            this.$el.find('#disp').html(this.template(this.model.attributes));
 
         },
 
