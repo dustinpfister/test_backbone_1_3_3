@@ -8,7 +8,7 @@ var View = Backbone.View.extend({
         model : new Idle(),
 
         // use a template
-        template : _.template('<p>Beens: <%- beens %></p>'),
+        template : _.template('<p>Beens: <%- beens %><\/p><p>Unlocked: <%- upgrades_unlocked %><\/p>'),
 
         // setup the event attachment
         events : {

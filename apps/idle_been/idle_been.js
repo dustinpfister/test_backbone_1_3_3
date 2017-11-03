@@ -11,11 +11,15 @@ var Idle = Backbone.Model.extend(
         defaults : {
 
             beens : 0,
-            items_unlocked : [], // unlocked item desc
-            items_data : []// an array of data objects for each item
+            upgrades_unlocked : [], // unlocked item desc
+            upgrades_data : []// an array of data objects for each item
         },
 
-        items : [{
+        // items that help get some more beens
+        upgrades : [
+
+            // only one item for now
+            {
 
                 id : 'clone_self',
                 desc : 'clone yourself',
@@ -24,6 +28,8 @@ var Idle = Backbone.Model.extend(
                 // the item is unlocked
                 unlockIf : function () {
 
+                    // this allows for be to define a condition
+                    // that will allow for the item to be unlokced
                     if (this.get('beens') >= 10) {
 
                         return true;
@@ -32,7 +38,10 @@ var Idle = Backbone.Model.extend(
 
                     return false;
 
-                }
+                },
+
+                // an initialize method for the item
+                init : function () {}
 
             }
 
@@ -41,13 +50,22 @@ var Idle = Backbone.Model.extend(
         // update items_unlocked array
         unlockedCheck : function () {
 
-            var self = this;
+            var self = this,
 
-            this.items.forEach(function (item) {
+            unlocked = [];
 
-                console.log(item.unlockIf.call(self));
+            this.upgrades.forEach(function (upgrade) {
 
-            })
+                if (upgrade.unlockIf.call(self)) {
+
+                    unlocked.push(upgrade.id);
+
+                }
+
+            });
+
+            // set the unlocked array
+            this.set('upgrades_unlocked', unlocked);
 
         },
 
