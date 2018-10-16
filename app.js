@@ -52,6 +52,7 @@ app.get('/', function (req, res) {
 
         res.render('index', {
 
+            layout: 'home',
             demos: demos
 
         });
@@ -62,7 +63,9 @@ app.get('/', function (req, res) {
 
 app.get(/demos\/.+/, function (req, res) {
 
-    res.render('demo', {});
+    res.render('index', {
+        layout: 'demo'
+    });
 
 });
 
