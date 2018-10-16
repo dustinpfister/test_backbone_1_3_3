@@ -60,6 +60,12 @@ app.get('/', function (req, res) {
 
 });
 
+app.get(/demos\/.+/, function (req, res) {
+
+    res.render('demo', {});
+
+});
+
 app.listen(port, function () {
 
     console.log('app is up on port: ' + port);
