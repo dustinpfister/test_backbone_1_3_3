@@ -21,6 +21,8 @@
   "homepage": "https://github.com/dustinpfister/test_backbone_1_3_3#readme",
   "dependencies": {
     "ejs": "^2.6.1",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "klaw": "^3.0.0",
+    "through2": "^2.0.3"
   }
 }
