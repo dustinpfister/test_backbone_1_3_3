@@ -63,8 +63,12 @@ app.get('/', function (req, res) {
 
 app.get(/demos\/.+/, function (req, res) {
 
+    // getting demo name this way
+    let name = req.path.replace(/\/demos\//, '');
+
     res.render('index', {
-        layout: 'demo'
+        layout: 'demo',
+        name: name
     });
 
 });
