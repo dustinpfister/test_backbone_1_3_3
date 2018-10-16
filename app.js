@@ -12,7 +12,21 @@ app.set('view engine', 'ejs');
 
 app.get('/', function (req, res) {
 
-    klaw(path.join(__dirname, 'views/demos'))
+    let demos = []
+
+    klaw(path.join(__dirname, 'views/demos'), {
+        depthLimit: 1
+    })
+
+    // filter demos folder
+    .pipe(through2.obj(function (item, enc, next) {
+
+            if (path.basename(item.path) != 'demos') {
+                this.push(item);
+            }
+            next();
+
+        }))
 
     // only directories
     .pipe(through2.obj(function (item, enc, next) {
@@ -24,15 +38,23 @@ app.get('/', function (req, res) {
 
         }))
 
+    // for each item
     .on('data', function (item) {
 
-        console.log(item.path);
+        // create objects for each item
+        demos.push({
+            name: path.basename(item.path)
+        });
 
     })
 
     .on('end', function () {
 
-        res.render('index', {});
+        res.render('index', {
+
+            demos: demos
+
+        });
 
     });
 
