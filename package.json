@@ -1,0 +1,25 @@
+{
+  "name": "test_backbone_1_3_3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dustinpfister/test_backbone_1_3_3.git"
+  },
+  "author": "Dustin Pfister",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/dustinpfister/test_backbone_1_3_3/issues"
+  },
+  "homepage": "https://github.com/dustinpfister/test_backbone_1_3_3#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}

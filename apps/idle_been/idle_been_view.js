@@ -36,13 +36,15 @@ var View = Backbone.View.extend({
             this.$el.find('#disp').html(this.dispTemplate(this.model.attributes));
 
             var html = '';
+			
+			// check unlocked
+			//this.model.unlockedCheck();
+
+            console.log(this.model.get('upgrades_unlocked'));
 
             this.model.get('upgrades_unlocked').forEach(function (uLockId) {
 
                 var data = view.model.getUpgradeData(uLockId);
-
-                console.log(uLockId);
-                console.log(data);
 
                 html += view.upgradeTemplate(data);
 
@@ -58,7 +60,7 @@ var View = Backbone.View.extend({
 
                         console.log('user upgrade for: ' + data.id);
 
-                        view.model.user_upgrade(data.id);
+                        view.model.upgrade(data.id);
                         view.render();
 
                     });
@@ -68,48 +70,12 @@ var View = Backbone.View.extend({
 
             });
 
-            /*
-            var i = 0,
-            upData,
-            len = this.model.get('upgrades_data').length;
-
-            while(i < len){
-
-            upData = this.model.get('upgrades_data')[i];
-            html += this.upgradeTemplate(upData);
-
-            console.log(html);
-
-            this.$el.find('#upgrades_list').html(html);
-
-            (function () {
-
-            $('#upgrade_' + upData.id).get(0).addEventListener('click', function () {
-
-            console.log('user upgrade for: ' + upData.id);
-
-            view.model.user_upgrade(upData.id);
-            view.render();
-
-            });
-
-            }
-            (upData))
-
-            console.log($('#upgrade_' + upData.id).get(0))
-
-            i += 1;
-
-            }
-
-             */
-
         },
 
         // what to do when the
         user_click : function () {
 
-            this.model.manualGather();
+            this.model.getBeens();
             this.render();
 
         }

@@ -1,16 +1,11 @@
 
 // The Model
-var Idle = Backbone.Model.extend(
-
-        // you want to give Model.extend an object
-        // that will contain all of the methods,
-        // and attributes that compose your Model
-    {
+var Idle = Backbone.Model.extend({
 
         // set some defaults
         defaults : {
 
-            beens : 0,
+            beens : 0, // the current about of beens
             manRate : 1, // the manual rate
             upgrades_unlocked : [], // unlocked item desc
             upgrades_data : []// an array of data objects for each item
@@ -41,11 +36,6 @@ var Idle = Backbone.Model.extend(
 
                 // what to do each time the upgrades count is bumped up
                 onUpgrade : function (model, data) {
-
-                    console.log('I am the on upgrade method for ' + this.id);
-                    console.log(model);
-                    console.log(data);
-                    console.log('**********');
 
                     // set manual rate base on state of upgrade
                     model.set('manRate', data.count + 1);
@@ -162,51 +152,9 @@ var Idle = Backbone.Model.extend(
             // reset all
             this.upgrades.forEach(function (upgrade) {
 
-                //upgrade.init(model);
-
                 model.initUpgrade(upgrade);
 
             });
-
-        },
-
-        // user upgrade for given id
-        user_upgrade : function (id) {
-
-            // get the data object for the id
-            var data = this.getUpgradeData(id),
-            upgrade = this.getUpgrade(id),
-            beens = this.get('beens');
-
-            // if we have a data object for it
-            if (data) {
-
-                if (beens >= data.cost) {
-
-                    data.count += 1;
-
-                    beens -= data.cost;
-
-                    upgrade.onUpgrade(this, data);
-
-                    this.set('beens', beens);
-
-                } else {
-
-                    console.log('not enough beens');
-
-                }
-
-                console.log(data);
-
-            } else {
-
-                console.log('data for upgrade not found!');
-
-            }
-
-			// preform an unlock check
-            this.unlockedCheck();
 
         },
 
@@ -214,16 +162,35 @@ var Idle = Backbone.Model.extend(
         unlockedCheck : function () {
 
             var model = this,
-
+            beens,
+            data,
             unlocked = [];
 
             this.upgrades.forEach(function (upgrade) {
+
+                // if the upgrade has a method use that
+                //if (upgrade.unlockIf) {
 
                 if (upgrade.unlockIf(model)) {
 
                     unlocked.push(upgrade.id);
 
                 }
+                /*
+                } else {
+
+                // else go by cost
+                data = model.getUpgradeData(upgrade.id);
+                beens = model.get('beens');
+
+                if (beens >= data.cost) {
+
+                unlocked.push(upgrade.id);
+
+                }
+
+                }
+                 */
 
             });
 
@@ -232,8 +199,60 @@ var Idle = Backbone.Model.extend(
 
         },
 
+        // user upgrade for given id
+        upgrade : function (id) {
+
+            var data,
+            upgrade,
+            beens;
+
+            if (id) {
+
+                // get the data object for the id
+                data = this.getUpgradeData(id);
+                upgrade = this.getUpgrade(id);
+                beens = this.get('beens');
+
+                // if we have a data object for it
+                if (data) {
+
+                    if (beens >= data.cost) {
+
+                        data.count += 1;
+
+                        beens -= data.cost;
+
+                        upgrade.onUpgrade(this, data);
+
+                        this.set('beens', beens);
+
+                        // preform an unlock check
+                        this.unlockedCheck();
+
+                    } else {
+
+                        return 'not enough beens';
+
+                    }
+
+                    return data;
+
+                } else {
+
+                    return 'not enough beens!';
+
+                }
+
+            } else {
+
+                // if no id is given, list upgrades
+                return this.get('upgrades_unlocked');
+            }
+
+        },
+
         // what to do if some kind of user action happens
-        manualGather : function () {
+        getBeens : function () {
 
             var beens = this.get('beens');
 
@@ -243,6 +262,10 @@ var Idle = Backbone.Model.extend(
 
             this.unlockedCheck();
 
+            return beens;
+
         }
 
     });
+
+var game = new Idle();

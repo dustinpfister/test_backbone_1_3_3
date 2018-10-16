@@ -3,7 +3,20 @@ var View = Backbone.View.extend({
 
         el : $('#container'),
 
-        template : _.template('<p>Clicks: <%- clicks %></p>'),
+        events : {
+
+            'click li' : 'onListClick'
+
+        },
+
+        onListClick : function (e) {
+
+            console.log(e.target);
+            this.render(e.target.innerText);
+
+        },
+
+        template : _.template('<p>selected: <%- text %></p>'),
 
         initialize : function () {
 
@@ -11,9 +24,13 @@ var View = Backbone.View.extend({
 
         },
 
-        render : function () {
+        render : function (text) {
 
-            this.$el.html(this.template({clicks: 0}));
+            text = text || 'none';
+
+            this.$el.find('#disp').html(this.template({
+                    text : text
+                }));
 
         }
 
