@@ -10,6 +10,9 @@ port = process.env.PORT || process.argv[2] || 8080;
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// set up public folder
+app.use('/',express.static(path.join(__dirname, 'public')));
+
 app.get('/', function (req, res) {
 
     let demos = []
